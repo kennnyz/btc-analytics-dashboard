@@ -12,7 +12,7 @@ const ThemeContext = createContext<ThemeContextValue>({ theme: 'dark', toggle: (
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('btc-dash-theme');
-    return (saved === 'light' ? 'light' : 'dark') as Theme;
+    return (saved === 'dark' ? 'dark' : 'light') as Theme;
   });
 
   useEffect(() => {
