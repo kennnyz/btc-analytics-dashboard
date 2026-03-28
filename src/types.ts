@@ -69,21 +69,11 @@ export interface FomcData {
   meetings?: FomcMeeting[];
 }
 
-export interface ReturnDist { mean: number; median: number; q25: number; q75: number; min: number; max: number; std: number; }
-export interface SweepReturnsData { SSL: Record<string, ReturnDist>; BSL: Record<string, ReturnDist>; }
-
 export interface VolatilityData {
   atr_by_month: { month: string; avg_atr: number; avg_range: number }[];
   atr_by_session: { session: string; avg_range: number }[];
   bb_squeeze: { threshold_width: number; total_squeezes: number; avg_move_24h: number; avg_move_48h: number; pct_big_move: number };
   vol_clustering: { big_move_days: number; avg_range_day1: number; avg_range_day2: number; avg_range_day3: number; avg_normal_range: number };
-}
-
-export interface CandleStructureData {
-  wick_by_session: { session: string; avg_upper_wick: number; avg_lower_wick: number }[];
-  engulfing: { bullish_count: number; bullish_avg_4h: number; bullish_avg_24h: number; bearish_count: number; bearish_avg_4h: number; bearish_avg_24h: number };
-  hammer_star: { hammer_count: number; hammer_avg_4h_ret: number; shooting_star_count: number; shooting_star_avg_4h_ret: number };
-  gaps: { total_mondays: number; avg_gap_pct: number; gap_fill_rate: number };
 }
 
 export interface TrendData {
@@ -106,12 +96,6 @@ export interface SessionDiveData {
   orb: { session: string; total: number; break_up_pct: number; break_down_pct: number }[];
 }
 
-export interface RoundNumberStat { level: number; total_touches: number; bounce_pct: number; break_pct: number; avg_24h_ret: number; }
-export interface RoundNumbersData {
-  round_numbers: RoundNumberStat[];
-  magnetic_effect: { from_below_avg_ret: number; from_above_avg_ret: number; from_below_count: number; from_above_count: number };
-}
-
 export interface PostBigMoveData {
   after_big_up: { count: number; returns: Record<string, number> };
   after_big_down: { count: number; returns: Record<string, number> };
@@ -125,8 +109,6 @@ export interface DowSessionData {
   return_heatmap: HeatmapMatrix;
   best_worst: { best_reversal: { day: string; session: string; value: number }; worst_reversal: { day: string; session: string; value: number }; best_return: { day: string; session: string; value: number }; worst_return: { day: string; session: string; value: number } };
 }
-
-export interface AutocorrelationData { autocorr_1h: number; autocorr_4h: number; autocorr_1d: number; momentum_5d_corr: number; }
 
 // Kill Zones
 export interface KillZoneWindow { time: string; avg_move: number; count: number; }
@@ -180,14 +162,6 @@ export interface WeeklyRangeData { avg_range: number; by_year: WeeklyRangeYear[]
 export interface MonthlyBias { month: string; bullish_pct: number; avg_return: number; count: number; }
 export interface MonthlyOpenBiasData { total_months: number; bullish_pct: number; by_month: MonthlyBias[]; }
 
-// BTC Internal Correlations
-export interface BtcInternalCorrData { return_volume_corr: number; volatility_next_return_corr: number; volume_trend_corr: number; }
-
-// BTC-ETH Correlation
-export interface RollingCorr { date: string; corr: number; }
-export interface BtcEthCorrelationData { overall_corr: number; rolling_30d: RollingCorr[]; divergence_events: number; divergence_pct: number; }
-
-
 // Hourly Returns
 export interface HourlyReturn { hour: number; avg_return: number; median_return: number; positive_pct: number; count: number; }
 
@@ -204,6 +178,20 @@ export interface VolYearly { year: number; avg_range: number; max_range: number;
 // Cycle Comparison
 export interface CycleComparisonEntry { name: string; date: string; price: number | null; d30: number | null; d60: number | null; d90: number | null; d180: number | null; d270: number | null; d365: number | null; d540: number | null; d730: number | null; }
 
+// Time in Profit
+export interface TimeInProfitEntry { days: number; label: string; win_pct: number; avg_return: number; median_return: number; worst: number; best: number; samples: number; }
+
+// Drawdown Events
+export interface DrawdownEventEntry { start_date: string; trough_date: string; recovery_date: string | null; peak_price: number; trough_price: number; drawdown_pct: number; recovery_days: number | null; total_days: number | null; }
+
+// DCA Optimizer
+export interface DcaDow { day: string; day_num: number; avg_return: number; avg_low_from_open: number; positive_pct: number; }
+export interface DcaHour { hour: number; avg_low_from_open: number; avg_return: number; }
+export interface DcaOptimizer { by_dow: DcaDow[]; by_hour: DcaHour[]; }
+
+// Consecutive Red Days
+export interface ConsecutiveRedEntry { streak: number; count: number; avg_1d: number | null; win_1d: number | null; avg_7d: number | null; win_7d: number | null; avg_30d: number | null; win_30d: number | null; }
+
 export interface AnalyticsData {
   overview: OverviewData;
   sessions: SessionStat[];
@@ -215,29 +203,27 @@ export interface AnalyticsData {
   fomc: FomcData;
   monthly: MonthlyStat[];
   yearly: YearlyStat[];
-  sweep_returns: SweepReturnsData;
   volatility: VolatilityData;
-  candle_structure: CandleStructureData;
   trend: TrendData;
   volume: VolumeData;
   session_dive: SessionDiveData;
-  round_numbers: RoundNumbersData;
   post_big_move: PostBigMoveData;
   dow_session: DowSessionData;
-  autocorrelation: AutocorrelationData;
   kill_zones: KillZonesData;
   asian_range_amd: AsianRangeAmdData;
   cme_gap: CmeGapData;
   halving_cycle: HalvingCycleData;
   weekly_range: WeeklyRangeData;
   monthly_open_bias: MonthlyOpenBiasData;
-  btc_internal_corr: BtcInternalCorrData;
-  btc_eth_correlation: BtcEthCorrelationData;
   hourly_returns?: HourlyReturn[];
   monthly_grid?: MonthlyGridRow[];
   weekly_cumulative_range?: WeeklyCumulativeDay[];
   vol_percentiles?: VolPercentiles;
   vol_yearly?: VolYearly[];
   cycle_comparison?: CycleComparisonEntry[];
+  time_in_profit?: TimeInProfitEntry[];
+  drawdown_events?: DrawdownEventEntry[];
+  dca_optimizer?: DcaOptimizer;
+  consecutive_red_days?: ConsecutiveRedEntry[];
 }
 

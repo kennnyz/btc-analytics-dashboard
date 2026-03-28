@@ -15,27 +15,28 @@ const SECTIONS = [
   ]},
   { group: 'Liquidity', items: [
     { id: 'liquidity', label: 'Liquidity Levels' },
-    { id: 'returns', label: 'Sweep Returns' },
   ]},
   { group: 'Patterns', items: [
     { id: 'volatility', label: 'Volatility' },
-    { id: 'candles', label: 'Candle Structure' },
     { id: 'trends', label: 'Trends' },
     { id: 'volume', label: 'Volume' },
   ]},
   { group: 'Advanced', items: [
     { id: 'sessiondive', label: 'Session Dive' },
-    { id: 'roundnums', label: 'Round Numbers' },
     { id: 'bigmoves', label: 'Big Moves' },
     { id: 'heatmap', label: 'DoW x Session' },
-    { id: 'autocorr', label: 'Autocorrelation' },
     { id: 'killzones', label: 'Kill Zones' },
     { id: 'asianrange', label: 'Asian Range AMD' },
     { id: 'cmegap', label: 'CME Gap' },
     { id: 'halvingcycle', label: 'Halving Cycle' },
     { id: 'weeklyrange', label: 'Weekly Range' },
     { id: 'monthlybias', label: 'Monthly Bias' },
-    { id: 'correlations', label: 'Correlations' },
+  ]},
+  { group: 'Trading Tools', items: [
+    { id: 'timeinprofit', label: 'Time in Profit' },
+    { id: 'drawdowns', label: 'Drawdown Recovery' },
+    { id: 'dcaoptimizer', label: 'DCA Optimizer' },
+    { id: 'consecutivered', label: 'Buy After Red Streak' },
   ]},
 ];
 

@@ -10,33 +10,33 @@ import Calendar from './components/sections/Calendar';
 import Hourly from './components/sections/Hourly';
 import Fomc from './components/sections/Fomc';
 import Liquidity from './components/sections/Liquidity';
-import Returns from './components/sections/Returns';
 import Volatility from './components/sections/Volatility';
-import Candles from './components/sections/Candles';
 import Trends from './components/sections/Trends';
 import Volume from './components/sections/Volume';
 import SessionDive from './components/sections/SessionDive';
-import RoundNumbers from './components/sections/RoundNumbers';
 import BigMoves from './components/sections/BigMoves';
 import DowSession from './components/sections/DowSession';
-import Autocorrelation from './components/sections/Autocorrelation';
 import KillZones from './components/sections/KillZones';
 import AsianRange from './components/sections/AsianRange';
 import CmeGap from './components/sections/CmeGap';
 import HalvingCycle from './components/sections/HalvingCycle';
 import WeeklyRange from './components/sections/WeeklyRange';
 import MonthlyBias from './components/sections/MonthlyBias';
-import BtcEthCorr from './components/sections/BtcEthCorr';
+import TimeInProfit from './components/sections/TimeInProfit';
+import DrawdownRecovery from './components/sections/DrawdownRecovery';
+import DcaOptimizer from './components/sections/DcaOptimizer';
+import ConsecutiveRed from './components/sections/ConsecutiveRed';
 
 const SECTIONS: Record<string, React.FC> = {
   overview: Overview, sessions: Sessions, calendar: Calendar,
-  hourly: Hourly, fomc: Fomc, liquidity: Liquidity, returns: Returns,
-  volatility: Volatility, candles: Candles, trends: Trends, volume: Volume,
-  sessiondive: SessionDive, roundnums: RoundNumbers, bigmoves: BigMoves,
-  heatmap: DowSession, autocorr: Autocorrelation,
+  hourly: Hourly, fomc: Fomc, liquidity: Liquidity,
+  volatility: Volatility, trends: Trends, volume: Volume,
+  sessiondive: SessionDive, bigmoves: BigMoves,
+  heatmap: DowSession,
   killzones: KillZones, asianrange: AsianRange, cmegap: CmeGap,
   halvingcycle: HalvingCycle, weeklyrange: WeeklyRange, monthlybias: MonthlyBias,
-  correlations: BtcEthCorr,
+  timeinprofit: TimeInProfit, drawdowns: DrawdownRecovery,
+  dcaoptimizer: DcaOptimizer, consecutivered: ConsecutiveRed,
 };
 
 function Content({ section }: { section: string }) {
