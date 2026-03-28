@@ -19,8 +19,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/analytics.json').then(r => r.json()),
-      fetch('/data/backtests.json').then(r => r.json()),
+      fetch(`${import.meta.env.BASE_URL}data/analytics.json`).then(r => r.json()),
+      fetch(`${import.meta.env.BASE_URL}data/backtests.json`).then(r => r.json()),
     ])
       .then(([analytics, backtests]) => {
         setState({ analytics, backtests, loading: false, error: null });
