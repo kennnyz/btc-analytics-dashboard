@@ -12,6 +12,7 @@ const SECTIONS = [
     { id: 'seasonality', label: 'Seasonality' },
     { id: 'hourly', label: 'Hourly' },
     { id: 'fomc', label: 'FOMC' },
+    { id: 'macroevents', label: 'Macro Events' },
   ]},
   { group: 'Liquidity', items: [
     { id: 'liquidity', label: 'Liquidity Levels' },
@@ -20,6 +21,9 @@ const SECTIONS = [
     { id: 'volatility', label: 'Volatility' },
     { id: 'trends', label: 'Trends' },
     { id: 'volume', label: 'Volume' },
+    { id: 'returndist', label: 'Return Distribution' },
+    { id: 'regimesplit', label: 'Bull vs Bear' },
+    { id: 'volregime', label: 'Post-Squeeze Direction' },
   ]},
   { group: 'Advanced', items: [
     { id: 'bigmoves', label: 'Big Moves' },
@@ -33,6 +37,8 @@ const SECTIONS = [
     { id: 'drawdowns', label: 'Drawdown Recovery' },
     { id: 'dcaoptimizer', label: 'DCA Optimizer' },
     { id: 'consecutivered', label: 'Buy After Red Streak' },
+    { id: 'buythedip', label: 'Buy the Dip' },
+    { id: 'athdrawdown', label: 'ATH Distance' },
   ]},
 ];
 

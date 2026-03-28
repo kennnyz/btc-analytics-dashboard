@@ -56,9 +56,10 @@ export interface MonthlyStat { month: string; month_num: number; avg_return: num
 export interface YearlyStat { year: number; total_sweeps: number; reversal_rate: number; avg_4h_return: number; }
 
 export interface FomcMeeting {
-  date: string; open: number; close: number; high: number; low: number;
-  day_return: number; day_range: number;
-  before_return: number | null; after_return: number | null;
+  date: string;
+  wb_return: number | null; wb_high: number | null; wb_low: number | null; wb_max_rally: number | null; wb_max_dd: number | null;
+  event_open: number; event_close: number; event_high: number; event_low: number; event_range: number; event_return: number;
+  wa_return: number | null; wa_high: number | null; wa_low: number | null; wa_max_rally: number | null; wa_max_dd: number | null;
 }
 export interface FomcData {
   fomc_avg_range: number; normal_avg_range: number;
@@ -66,6 +67,9 @@ export interface FomcData {
   fomc_avg_return: number; fomc_reversal_rate: number;
   day_before_fomc_avg_return: number; day_before_fomc_avg_range: number;
   day_after_fomc_avg_return: number; day_after_fomc_avg_range: number;
+  avg_wb_return?: number; avg_wa_return?: number;
+  avg_wa_max_rally?: number; avg_wa_max_dd?: number;
+  positive_wa_pct?: number;
   meetings?: FomcMeeting[];
 }
 
@@ -192,6 +196,40 @@ export interface DcaOptimizer { by_dow: DcaDow[]; by_hour: DcaHour[]; }
 // Consecutive Red Days
 export interface ConsecutiveRedEntry { streak: number; count: number; avg_1d: number | null; win_1d: number | null; avg_7d: number | null; win_7d: number | null; avg_30d: number | null; win_30d: number | null; }
 
+// Regime Split
+export interface RegimeSummary { days: number; pct_of_total: number; avg_daily_return: number; avg_daily_range: number; positive_days_pct: number; }
+export interface RegimeHourly { hour: number; bull_avg: number; bull_positive: number; bear_avg: number; bear_positive: number; }
+export interface RegimeDow { day: string; bull_avg: number; bull_positive: number; bear_avg: number; bear_positive: number; }
+export interface RegimeSplitData { summary: { bull: RegimeSummary; bear: RegimeSummary }; hourly: RegimeHourly[]; dow: RegimeDow[]; }
+
+// Buy the Dip
+export interface BuyTheDipEntry { threshold: number; count: number; avg_7d: number | null; win_7d: number | null; median_7d: number | null; avg_30d: number | null; win_30d: number | null; median_30d: number | null; avg_90d: number | null; win_90d: number | null; median_90d: number | null; }
+
+// Return Distribution
+export interface ReturnHistBin { bin: number; count: number; }
+export interface ReturnDistStats { mean: number; median: number; std: number; skewness: number; kurtosis: number; var_95: number; var_99: number; cvar_95: number; min: number; max: number; total_days: number; }
+export interface ReturnDistributionData { histogram: ReturnHistBin[]; stats: ReturnDistStats; }
+
+// ATH Drawdown
+export interface AthDdBucket { bucket: string; days: number; pct: number; }
+export interface AthDrawdownData { current_dd_pct: number; current_ath: number; distribution: AthDdBucket[]; }
+
+// Macro Events
+export interface MacroMeeting {
+  date: string;
+  wb_return: number | null; wb_high: number | null; wb_low: number | null; wb_max_rally: number | null; wb_max_dd: number | null;
+  event_open: number; event_close: number; event_high: number; event_low: number; event_range: number; event_return: number;
+  wa_return: number | null; wa_high: number | null; wa_low: number | null; wa_max_rally: number | null; wa_max_dd: number | null;
+}
+export interface MacroEventData {
+  name: string; count: number; avg_event_return: number; avg_event_range: number; avg_normal_range: number; positive_event_pct: number;
+  avg_wb_return?: number; avg_wa_return?: number; avg_wa_max_rally?: number; avg_wa_max_dd?: number; positive_wa_pct?: number;
+  meetings: MacroMeeting[];
+}
+
+// Vol Regime Entry
+export interface VolRegimeEntryData { total_squeezes: number; bb_width_threshold: number; bullish_pct: number; bearish_pct: number; avg_bull_return_5d: number; avg_bear_return_5d: number; }
+
 export interface AnalyticsData {
   overview: OverviewData;
   sessions: SessionStat[];
@@ -225,5 +263,11 @@ export interface AnalyticsData {
   drawdown_events?: DrawdownEventEntry[];
   dca_optimizer?: DcaOptimizer;
   consecutive_red_days?: ConsecutiveRedEntry[];
+  regime_split?: RegimeSplitData;
+  buy_the_dip?: BuyTheDipEntry[];
+  return_distribution?: ReturnDistributionData;
+  ath_drawdown?: AthDrawdownData;
+  macro_events?: MacroEventData[];
+  vol_regime_entry?: VolRegimeEntryData;
 }
 

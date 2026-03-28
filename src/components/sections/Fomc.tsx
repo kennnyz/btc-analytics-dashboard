@@ -3,50 +3,44 @@ import { StatCard } from '../shared/StatCard';
 import { StatGrid } from '../shared/StatGrid';
 import { Card } from '../shared/Card';
 import { DataTable } from '../shared/DataTable';
-import { SimpleBar } from '../shared/charts/SimpleBar';
+import { COLORS, FONT_MONO } from '../shared/charts/theme';
+
+const fmtPct = (v: number | null) => v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '-';
 
 export default function Fomc() {
   const { analytics } = useData();
   if (!analytics) return null;
   const f = analytics.fomc;
-
-  const compareData = [
-    { metric: 'Avg Range %', fomc: Number(f.fomc_avg_range.toFixed(2)), normal: Number(f.normal_avg_range.toFixed(2)) },
-    { metric: 'Sweeps/Day', fomc: Number(f.fomc_sweep_per_day.toFixed(1)), normal: Number(f.normal_sweep_per_day.toFixed(1)) },
-  ];
-  const aroundFomc = [
-    { period: 'Day Before', avg_return: Number(f.day_before_fomc_avg_return.toFixed(3)), avg_range: Number(f.day_before_fomc_avg_range.toFixed(2)) },
-    { period: 'FOMC Day', avg_return: Number(f.fomc_avg_return.toFixed(3)), avg_range: Number(f.fomc_avg_range.toFixed(2)) },
-    { period: 'Day After', avg_return: Number(f.day_after_fomc_avg_return.toFixed(3)), avg_range: Number(f.day_after_fomc_avg_range.toFixed(2)) },
-  ];
-
   const meetings = f.meetings ?? [];
 
   return (
     <div>
       <h2>FOMC Impact</h2>
+      <p style={{ fontSize: 12, color: COLORS.textMuted, margin: '-8px 0 16px', fontFamily: FONT_MONO }}>
+        BTC price behavior around FOMC meetings: week before, event day, and week after. Extremes show max rally/drawdown within each window.
+      </p>
       <StatGrid>
         <StatCard value={`${f.fomc_avg_range.toFixed(2)}%`} label="FOMC Day Avg Range" variant="accent" />
         <StatCard value={`${f.normal_avg_range.toFixed(2)}%`} label="Normal Day Avg Range" />
-        <StatCard value={`${f.fomc_reversal_rate.toFixed(1)}%`} label="FOMC Reversal Rate" variant="positive" />
-        <StatCard value={f.fomc_sweep_per_day.toFixed(1)} label="Sweeps per FOMC Day" />
+        <StatCard value={`${f.avg_wb_return ?? '-'}%`} label="Avg Week Before Return" />
+        <StatCard value={`${f.avg_wa_return ?? '-'}%`} label="Avg Week After Return" />
+        <StatCard value={`${f.avg_wa_max_rally ?? '-'}%`} label="Avg Max Rally (7d after)" variant="positive" />
+        <StatCard value={`${f.avg_wa_max_dd ?? '-'}%`} label="Avg Max Drawdown (7d after)" variant="negative" />
       </StatGrid>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        <Card><SimpleBar data={compareData} xKey="metric" bars={[{ key: 'fomc', name: 'FOMC Day', color: '#f85149' }, { key: 'normal', name: 'Normal Day', color: '#58a6ff' }]} title="FOMC vs Normal Days" /></Card>
-        <Card><SimpleBar data={aroundFomc} xKey="period" bars={[{ key: 'avg_range', name: 'Avg Range %', color: '#bc8cff' }]} title="Range Around FOMC" /></Card>
-      </div>
 
       {meetings.length > 0 && (
         <Card title="FOMC Meeting Results">
           <DataTable
             columns={[
               { key: 'date', label: 'Date' },
-              { key: 'open', label: 'Open', align: 'right' as const, format: (v: number) => `$${v?.toLocaleString()}` },
-              { key: 'close', label: 'Close', align: 'right' as const, format: (v: number) => `$${v?.toLocaleString()}` },
-              { key: 'day_range', label: 'Range', align: 'right' as const, format: (v: number) => `${v?.toFixed(2)}%` },
-              { key: 'before_return', label: 'Day Before', align: 'right' as const, colorize: true, format: (v: number | null) => v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '-' },
-              { key: 'day_return', label: 'FOMC Day', align: 'right' as const, colorize: true, format: (v: number) => `${v > 0 ? '+' : ''}${v?.toFixed(2)}%` },
-              { key: 'after_return', label: 'Day After', align: 'right' as const, colorize: true, format: (v: number | null) => v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '-' },
+              { key: 'wb_return', label: '7d Before Return', align: 'right' as const, colorize: true, format: fmtPct },
+              { key: 'wb_max_rally', label: '7d Before Max Rally', align: 'right' as const, format: (v: number | null) => v != null ? `+${v.toFixed(1)}%` : '-' },
+              { key: 'wb_max_dd', label: '7d Before Max Drop', align: 'right' as const, format: (v: number | null) => v != null ? `${v.toFixed(1)}%` : '-' },
+              { key: 'event_range', label: 'Event Day Range', align: 'right' as const, format: (v: number) => `${v?.toFixed(2)}%` },
+              { key: 'event_return', label: 'Event Day Return', align: 'right' as const, colorize: true, format: fmtPct },
+              { key: 'wa_return', label: '7d After Return', align: 'right' as const, colorize: true, format: fmtPct },
+              { key: 'wa_max_rally', label: '7d After Max Rally', align: 'right' as const, format: (v: number | null) => v != null ? `+${v.toFixed(1)}%` : '-' },
+              { key: 'wa_max_dd', label: '7d After Max Drop', align: 'right' as const, format: (v: number | null) => v != null ? `${v.toFixed(1)}%` : '-' },
             ]}
             data={meetings.slice().reverse()}
             maxHeight="600px"

@@ -22,6 +22,12 @@ import TimeInProfit from './components/sections/TimeInProfit';
 import DrawdownRecovery from './components/sections/DrawdownRecovery';
 import DcaOptimizer from './components/sections/DcaOptimizer';
 import ConsecutiveRed from './components/sections/ConsecutiveRed';
+import RegimeSplit from './components/sections/RegimeSplit';
+import BuyTheDip from './components/sections/BuyTheDip';
+import ReturnDist from './components/sections/ReturnDist';
+import AthDrawdown from './components/sections/AthDrawdown';
+import MacroEvents from './components/sections/MacroEvents';
+import VolRegimeEntry from './components/sections/VolRegimeEntry';
 
 const SECTIONS: Record<string, React.FC> = {
   overview: Overview, sessionplaybook: SessionPlaybook, seasonality: Seasonality,
@@ -32,6 +38,9 @@ const SECTIONS: Record<string, React.FC> = {
   halvingcycle: HalvingCycle, weeklyrange: WeeklyRange,
   timeinprofit: TimeInProfit, drawdowns: DrawdownRecovery,
   dcaoptimizer: DcaOptimizer, consecutivered: ConsecutiveRed,
+  regimesplit: RegimeSplit, buythedip: BuyTheDip,
+  returndist: ReturnDist, athdrawdown: AthDrawdown,
+  macroevents: MacroEvents, volregime: VolRegimeEntry,
 };
 
 function Content({ section }: { section: string }) {
