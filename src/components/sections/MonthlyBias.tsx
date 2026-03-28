@@ -30,8 +30,8 @@ function MonthlyGrid({ grid }: { grid: Record<string, unknown>[] }) {
         </thead>
         <tbody>
           {grid.map((row, i) => (
-            <tr key={row.year} style={{ background: i % 2 === 0 ? 'transparent' : COLORS.rowAlt }}>
-              <td style={{ padding: '6px 10px', fontSize: 12, fontFamily: FONT_MONO, fontWeight: 600, color: COLORS.text, borderBottom: `1px solid ${COLORS.border}` }}>{row.year}</td>
+            <tr key={i} style={{ background: i % 2 === 0 ? 'transparent' : COLORS.rowAlt }}>
+              <td style={{ padding: '6px 10px', fontSize: 12, fontFamily: FONT_MONO, fontWeight: 600, color: COLORS.text, borderBottom: `1px solid ${COLORS.border}` }}>{String(row.year)}</td>
               {MONTH_LABELS.map((_, mi) => {
                 const v = row[`m${mi + 1}`] as number | null;
                 return (
