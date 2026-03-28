@@ -55,12 +55,18 @@ export interface HourlyStat { hour: number; count: number; reversal_rate: number
 export interface MonthlyStat { month: string; month_num: number; avg_return: number; sweep_count: number; }
 export interface YearlyStat { year: number; total_sweeps: number; reversal_rate: number; avg_4h_return: number; }
 
+export interface FomcMeeting {
+  date: string; open: number; close: number; high: number; low: number;
+  day_return: number; day_range: number;
+  before_return: number | null; after_return: number | null;
+}
 export interface FomcData {
   fomc_avg_range: number; normal_avg_range: number;
   fomc_sweep_per_day: number; normal_sweep_per_day: number;
   fomc_avg_return: number; fomc_reversal_rate: number;
   day_before_fomc_avg_return: number; day_before_fomc_avg_range: number;
   day_after_fomc_avg_return: number; day_after_fomc_avg_range: number;
+  meetings?: FomcMeeting[];
 }
 
 export interface ReturnDist { mean: number; median: number; q25: number; q75: number; min: number; max: number; std: number; }

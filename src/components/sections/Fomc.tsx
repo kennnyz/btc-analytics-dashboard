@@ -2,6 +2,7 @@ import { useData } from '../../context/DataContext';
 import { StatCard } from '../shared/StatCard';
 import { StatGrid } from '../shared/StatGrid';
 import { Card } from '../shared/Card';
+import { DataTable } from '../shared/DataTable';
 import { SimpleBar } from '../shared/charts/SimpleBar';
 
 export default function Fomc() {
@@ -19,6 +20,8 @@ export default function Fomc() {
     { period: 'Day After', avg_return: Number(f.day_after_fomc_avg_return.toFixed(3)), avg_range: Number(f.day_after_fomc_avg_range.toFixed(2)) },
   ];
 
+  const meetings = f.meetings ?? [];
+
   return (
     <div>
       <h2>FOMC Impact</h2>
@@ -32,6 +35,24 @@ export default function Fomc() {
         <Card><SimpleBar data={compareData} xKey="metric" bars={[{ key: 'fomc', name: 'FOMC Day', color: '#f85149' }, { key: 'normal', name: 'Normal Day', color: '#58a6ff' }]} title="FOMC vs Normal Days" /></Card>
         <Card><SimpleBar data={aroundFomc} xKey="period" bars={[{ key: 'avg_range', name: 'Avg Range %', color: '#bc8cff' }]} title="Range Around FOMC" /></Card>
       </div>
+
+      {meetings.length > 0 && (
+        <Card title="FOMC Meeting Results">
+          <DataTable
+            columns={[
+              { key: 'date', label: 'Date' },
+              { key: 'open', label: 'Open', align: 'right' as const, format: (v: number) => `$${v?.toLocaleString()}` },
+              { key: 'close', label: 'Close', align: 'right' as const, format: (v: number) => `$${v?.toLocaleString()}` },
+              { key: 'day_range', label: 'Range', align: 'right' as const, format: (v: number) => `${v?.toFixed(2)}%` },
+              { key: 'before_return', label: 'Day Before', align: 'right' as const, colorize: true, format: (v: number | null) => v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '-' },
+              { key: 'day_return', label: 'FOMC Day', align: 'right' as const, colorize: true, format: (v: number) => `${v > 0 ? '+' : ''}${v?.toFixed(2)}%` },
+              { key: 'after_return', label: 'Day After', align: 'right' as const, colorize: true, format: (v: number | null) => v != null ? `${v > 0 ? '+' : ''}${v.toFixed(2)}%` : '-' },
+            ]}
+            data={meetings.slice().reverse()}
+            maxHeight="600px"
+          />
+        </Card>
+      )}
     </div>
   );
 }
