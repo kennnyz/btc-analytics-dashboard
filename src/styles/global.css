@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #0d1117;
+  --bg-secondary: #0c1016;
+  --card-bg: #161b22;
+  --card-bg-hover: #1c2128;
+  --border: #21262d;
+  --border-light: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --text-dim: #484f58;
+  --accent: #58a6ff;
+  --positive: #3fb950;
+  --negative: #f85149;
+  --purple: #bc8cff;
+  --yellow: #e3b341;
+  --orange: #d29922;
+  --cyan: #79c0ff;
+  --chart-grid: #21262d;
+  --tooltip-bg: #1c2128;
+  --row-alt: rgba(255,255,255,0.015);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --card-bg-hover: #eaeef2;
+  --border: #d1d9e0;
+  --border-light: #d1d9e0;
+  --text: #1f2328;
+  --text-muted: #656d76;
+  --text-dim: #8b949e;
+  --accent: #0969da;
+  --positive: #1a7f37;
+  --negative: #cf222e;
+  --purple: #8250df;
+  --yellow: #9a6700;
+  --orange: #bc4c00;
+  --cyan: #0969da;
+  --chart-grid: #e1e4e8;
+  --tooltip-bg: #ffffff;
+  --row-alt: rgba(0,0,0,0.02);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+.app-layout { display: flex; height: 100vh; overflow: hidden; }
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+  background: var(--bg);
+}
+
+.positive { color: var(--positive) !important; }
+.negative { color: var(--negative) !important; }
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
