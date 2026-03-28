@@ -8,8 +8,8 @@ const ENTRY_ID = 'entry.521991795';
 const SECTIONS = [
   { group: 'Market', items: [
     { id: 'overview', label: 'Overview' },
-    { id: 'sessions', label: 'Sessions' },
-    { id: 'calendar', label: 'Calendar' },
+    { id: 'sessionplaybook', label: 'Session Playbook' },
+    { id: 'seasonality', label: 'Seasonality' },
     { id: 'hourly', label: 'Hourly' },
     { id: 'fomc', label: 'FOMC' },
   ]},
@@ -22,15 +22,11 @@ const SECTIONS = [
     { id: 'volume', label: 'Volume' },
   ]},
   { group: 'Advanced', items: [
-    { id: 'sessiondive', label: 'Session Dive' },
     { id: 'bigmoves', label: 'Big Moves' },
-    { id: 'heatmap', label: 'DoW x Session' },
-    { id: 'killzones', label: 'Kill Zones' },
     { id: 'asianrange', label: 'Asian Range AMD' },
     { id: 'cmegap', label: 'CME Gap' },
     { id: 'halvingcycle', label: 'Halving Cycle' },
     { id: 'weeklyrange', label: 'Weekly Range' },
-    { id: 'monthlybias', label: 'Monthly Bias' },
   ]},
   { group: 'Trading Tools', items: [
     { id: 'timeinprofit', label: 'Time in Profit' },

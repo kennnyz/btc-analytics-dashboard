@@ -3,6 +3,7 @@ import { StatCard } from '../shared/StatCard';
 import { StatGrid } from '../shared/StatGrid';
 import { Card } from '../shared/Card';
 import { SimpleBar } from '../shared/charts/SimpleBar';
+import { DataTable } from '../shared/DataTable';
 import { COLORS, FONT_MONO, getColors } from '../shared/charts/theme';
 
 const MONTH_LABELS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -53,36 +54,62 @@ function MonthlyGrid({ grid }: { grid: Record<string, unknown>[] }) {
   );
 }
 
-export default function MonthlyBias() {
+export default function Seasonality() {
   const { analytics } = useData();
-  if (!analytics?.monthly_open_bias) return <div>No data.</div>;
+  if (!analytics) return null;
 
   const mb = analytics.monthly_open_bias;
-  const c = getColors();
   const grid = analytics.monthly_grid;
+  const c = getColors();
 
   return (
     <div>
-      <h2>Monthly Open Bias</h2>
-      <StatGrid>
-        <StatCard value={mb.total_months} label="Total Months" variant="accent" />
-        <StatCard value={`${mb.bullish_pct}%`} label="Bullish Months" variant="positive" />
-      </StatGrid>
+      <h2>Seasonality</h2>
+      <p style={{ color: COLORS.textMuted, fontSize: 13, marginTop: -8, marginBottom: 16 }}>
+        Monthly, weekly, and quarterly seasonal patterns in BTC price action.
+      </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        <Card>
-          <SimpleBar data={mb.by_month} xKey="month" bars={[{ key: 'avg_return' }]} title="Avg Return by Month" colorByValue height={280} />
-        </Card>
-        <Card>
-          <SimpleBar data={mb.by_month} xKey="month" bars={[{ key: 'bullish_pct', color: c.positive }]} title="Bullish % by Month" height={280} />
-        </Card>
-      </div>
-
-      {grid && grid.length > 0 && (
-        <Card title="Monthly Returns by Year">
-          <MonthlyGrid grid={grid as unknown as Record<string, unknown>[]} />
+      {/* 1. Monthly Seasonality */}
+      {mb && (
+        <Card title="Monthly Seasonality">
+          <StatGrid>
+            <StatCard value={mb.total_months} label="Total Months" variant="accent" />
+            <StatCard value={`${mb.bullish_pct}%`} label="Bullish Months" variant="positive" />
+          </StatGrid>
+          {grid && grid.length > 0 && (
+            <div style={{ marginBottom: 16 }}>
+              <MonthlyGrid grid={grid as unknown as Record<string, unknown>[]} />
+            </div>
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <SimpleBar data={mb.by_month} xKey="month" bars={[{ key: 'avg_return' }]} title="Avg Return by Month" colorByValue height={280} />
+            <SimpleBar data={mb.by_month} xKey="month" bars={[{ key: 'bullish_pct', color: c.positive }]} title="Bullish % by Month" height={280} />
+          </div>
         </Card>
       )}
+
+      {/* 2. Day of Week */}
+      <Card title="Day of Week">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+          <SimpleBar data={analytics.day_of_week} xKey="day" bars={[{ key: 'reversal_rate', color: COLORS.positive }]} title="Reversal Rate by Day of Week %" />
+          <SimpleBar data={analytics.day_of_week} xKey="day" bars={[{ key: 'avg_daily_return' }]} title="Avg Daily Return by DoW" colorByValue />
+        </div>
+        <SimpleBar data={analytics.monthly} xKey="month" bars={[{ key: 'avg_return' }]} title="Avg Return by Month" colorByValue />
+        <div style={{ marginTop: 16 }}>
+          <DataTable columns={[
+            { key: 'day', label: 'Day' },
+            { key: 'count', label: 'Sweeps', align: 'right' },
+            { key: 'reversal_rate', label: 'Rev Rate', align: 'right', format: (v: number) => `${v.toFixed(1)}%` },
+            { key: 'avg_daily_range', label: 'Avg Range', align: 'right', format: (v: number) => `${v.toFixed(2)}%` },
+            { key: 'avg_daily_return', label: 'Avg Return', align: 'right', colorize: true, format: (v: number) => `${v.toFixed(3)}%` },
+          ]} data={analytics.day_of_week} />
+        </div>
+      </Card>
+
+      {/* 3. Quarterly */}
+      <Card title="Quarterly">
+        <SimpleBar data={analytics.quarters} xKey="quarter" bars={[{ key: 'reversal_rate', color: COLORS.accent }]} title="Reversal Rate by Quarter %" />
+      </Card>
     </div>
   );
 }

@@ -5,36 +5,31 @@ import { Sidebar } from './components/Sidebar';
 import { COLORS, FONT_MONO } from './components/shared/charts/theme';
 
 import Overview from './components/sections/Overview';
-import Sessions from './components/sections/Sessions';
-import Calendar from './components/sections/Calendar';
+import SessionPlaybook from './components/sections/SessionPlaybook';
+import Seasonality from './components/sections/Seasonality';
 import Hourly from './components/sections/Hourly';
 import Fomc from './components/sections/Fomc';
 import Liquidity from './components/sections/Liquidity';
 import Volatility from './components/sections/Volatility';
 import Trends from './components/sections/Trends';
 import Volume from './components/sections/Volume';
-import SessionDive from './components/sections/SessionDive';
 import BigMoves from './components/sections/BigMoves';
-import DowSession from './components/sections/DowSession';
-import KillZones from './components/sections/KillZones';
 import AsianRange from './components/sections/AsianRange';
 import CmeGap from './components/sections/CmeGap';
 import HalvingCycle from './components/sections/HalvingCycle';
 import WeeklyRange from './components/sections/WeeklyRange';
-import MonthlyBias from './components/sections/MonthlyBias';
 import TimeInProfit from './components/sections/TimeInProfit';
 import DrawdownRecovery from './components/sections/DrawdownRecovery';
 import DcaOptimizer from './components/sections/DcaOptimizer';
 import ConsecutiveRed from './components/sections/ConsecutiveRed';
 
 const SECTIONS: Record<string, React.FC> = {
-  overview: Overview, sessions: Sessions, calendar: Calendar,
+  overview: Overview, sessionplaybook: SessionPlaybook, seasonality: Seasonality,
   hourly: Hourly, fomc: Fomc, liquidity: Liquidity,
   volatility: Volatility, trends: Trends, volume: Volume,
-  sessiondive: SessionDive, bigmoves: BigMoves,
-  heatmap: DowSession,
-  killzones: KillZones, asianrange: AsianRange, cmegap: CmeGap,
-  halvingcycle: HalvingCycle, weeklyrange: WeeklyRange, monthlybias: MonthlyBias,
+  bigmoves: BigMoves,
+  asianrange: AsianRange, cmegap: CmeGap,
+  halvingcycle: HalvingCycle, weeklyrange: WeeklyRange,
   timeinprofit: TimeInProfit, drawdowns: DrawdownRecovery,
   dcaoptimizer: DcaOptimizer, consecutivered: ConsecutiveRed,
 };
