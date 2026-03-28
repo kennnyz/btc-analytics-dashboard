@@ -37,14 +37,6 @@ const SECTIONS = [
     { id: 'monthlybias', label: 'Monthly Bias' },
     { id: 'correlations', label: 'Correlations' },
   ]},
-  { group: 'Backtests', items: [
-    { id: 'mfemae', label: 'MFE / MAE' },
-    { id: 'streaks', label: 'Win/Loss Streaks' },
-    { id: 'riskruin', label: 'Risk of Ruin' },
-    { id: 'kelly', label: 'Kelly Criterion' },
-    { id: 'drawdown', label: 'Drawdown Duration' },
-    { id: 'sortino', label: 'Sortino Ratio' },
-  ]},
 ];
 
 interface SidebarProps {

@@ -27,12 +27,6 @@ import HalvingCycle from './components/sections/HalvingCycle';
 import WeeklyRange from './components/sections/WeeklyRange';
 import MonthlyBias from './components/sections/MonthlyBias';
 import BtcEthCorr from './components/sections/BtcEthCorr';
-import MfeMae from './components/sections/MfeMae';
-import Streaks from './components/sections/Streaks';
-import RiskOfRuin from './components/sections/RiskOfRuin';
-import Kelly from './components/sections/Kelly';
-import DrawdownDuration from './components/sections/DrawdownDuration';
-import Sortino from './components/sections/Sortino';
 
 const SECTIONS: Record<string, React.FC> = {
   overview: Overview, sessions: Sessions, calendar: Calendar,
@@ -42,9 +36,7 @@ const SECTIONS: Record<string, React.FC> = {
   heatmap: DowSession, autocorr: Autocorrelation,
   killzones: KillZones, asianrange: AsianRange, cmegap: CmeGap,
   halvingcycle: HalvingCycle, weeklyrange: WeeklyRange, monthlybias: MonthlyBias,
-  correlations: BtcEthCorr, mfemae: MfeMae, streaks: Streaks,
-  riskruin: RiskOfRuin, kelly: Kelly, drawdown: DrawdownDuration,
-  sortino: Sortino,
+  correlations: BtcEthCorr,
 };
 
 function Content({ section }: { section: string }) {

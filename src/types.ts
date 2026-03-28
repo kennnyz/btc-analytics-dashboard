@@ -159,11 +159,6 @@ export interface CmeGapData {
   gaps: CmeGapEntry[];
 }
 
-// MFE/MAE
-export interface MfeMaeBucket { bucket: string; count: number; }
-export interface MfeMaeStrategy { name: string; period: string; avg_mfe: number; avg_mae: number; mfe_mae_ratio: number; mfe_distribution: MfeMaeBucket[]; mae_distribution: MfeMaeBucket[]; }
-export interface MfeMaeData { strategies: MfeMaeStrategy[]; }
-
 // Halving Cycle
 export interface HalvingEntry { date: string; price_at_halving: number; return_30d: number | null; return_90d: number | null; return_180d: number | null; return_365d: number | null; }
 export interface CycleReturn { days_since: number; avg_return: number; }
@@ -186,27 +181,6 @@ export interface BtcInternalCorrData { return_volume_corr: number; volatility_ne
 export interface RollingCorr { date: string; corr: number; }
 export interface BtcEthCorrelationData { overall_corr: number; rolling_30d: RollingCorr[]; divergence_events: number; divergence_pct: number; }
 
-// Win/Loss Streaks
-export interface StreakDist { streak: number; wins: number; losses: number; }
-export interface StreakStrategy { name: string; period: string; max_win_streak: number; avg_win_streak: number; max_loss_streak: number; avg_loss_streak: number; streak_distribution: StreakDist[]; }
-export interface WinLossStreaksData { strategies: StreakStrategy[]; }
-
-// Risk of Ruin
-export interface RuinStrategy { name: string; period: string; risk_of_ruin_50: number; risk_of_ruin_30: number; avg_max_dd: number; worst_dd: number; }
-export interface RiskOfRuinData { strategies: RuinStrategy[]; }
-
-// Kelly Criterion
-export interface KellyStrategy { name: string; period: string; kelly_pct: number; half_kelly: number; win_rate: number; avg_win: number; avg_loss: number; risk_reward: number; }
-export interface KellyCriterionData { strategies: KellyStrategy[]; }
-
-// Drawdown Duration
-export interface DrawdownEvent { start: string; end: string; depth: number; duration_days: number; }
-export interface DrawdownStrategy { name: string; period: string; max_dd_duration_days: number; avg_dd_duration_days: number; dd_events: DrawdownEvent[]; }
-export interface DrawdownDurationData { strategies: DrawdownStrategy[]; }
-
-// Sortino Ratio
-export interface SortinoStrategy { name: string; period: string; sortino: number; sharpe: number; downside_dev: number; mean_return: number; }
-export interface SortinoRatioData { strategies: SortinoStrategy[]; }
 
 export interface AnalyticsData {
   overview: OverviewData;
@@ -232,16 +206,10 @@ export interface AnalyticsData {
   kill_zones: KillZonesData;
   asian_range_amd: AsianRangeAmdData;
   cme_gap: CmeGapData;
-  mfe_mae: MfeMaeData;
   halving_cycle: HalvingCycleData;
   weekly_range: WeeklyRangeData;
   monthly_open_bias: MonthlyOpenBiasData;
   btc_internal_corr: BtcInternalCorrData;
   btc_eth_correlation: BtcEthCorrelationData;
-  win_loss_streaks: WinLossStreaksData;
-  risk_of_ruin: RiskOfRuinData;
-  kelly_criterion: KellyCriterionData;
-  drawdown_duration: DrawdownDurationData;
-  sortino_ratio: SortinoRatioData;
 }
 
