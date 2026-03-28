@@ -188,6 +188,22 @@ export interface RollingCorr { date: string; corr: number; }
 export interface BtcEthCorrelationData { overall_corr: number; rolling_30d: RollingCorr[]; divergence_events: number; divergence_pct: number; }
 
 
+// Hourly Returns
+export interface HourlyReturn { hour: number; avg_return: number; median_return: number; positive_pct: number; count: number; }
+
+// Monthly Grid (year × month)
+export interface MonthlyGridRow { year: number; m1: number | null; m2: number | null; m3: number | null; m4: number | null; m5: number | null; m6: number | null; m7: number | null; m8: number | null; m9: number | null; m10: number | null; m11: number | null; m12: number | null; }
+
+// Weekly Cumulative Range
+export interface WeeklyCumulativeDay { day: string; day_num: number; avg_pct_of_weekly_range: number; median_pct: number; }
+
+// Volatility Percentiles
+export interface VolPercentiles { current_atr14: number; percentile_90d: number; percentile_365d: number; percentile_all: number; }
+export interface VolYearly { year: number; avg_range: number; max_range: number; avg_atr14: number; days_above_5pct: number; days_above_10pct: number; }
+
+// Cycle Comparison
+export interface CycleComparisonEntry { name: string; date: string; price: number | null; d30: number | null; d60: number | null; d90: number | null; d180: number | null; d270: number | null; d365: number | null; d540: number | null; d730: number | null; }
+
 export interface AnalyticsData {
   overview: OverviewData;
   sessions: SessionStat[];
@@ -217,5 +233,11 @@ export interface AnalyticsData {
   monthly_open_bias: MonthlyOpenBiasData;
   btc_internal_corr: BtcInternalCorrData;
   btc_eth_correlation: BtcEthCorrelationData;
+  hourly_returns?: HourlyReturn[];
+  monthly_grid?: MonthlyGridRow[];
+  weekly_cumulative_range?: WeeklyCumulativeDay[];
+  vol_percentiles?: VolPercentiles;
+  vol_yearly?: VolYearly[];
+  cycle_comparison?: CycleComparisonEntry[];
 }
 

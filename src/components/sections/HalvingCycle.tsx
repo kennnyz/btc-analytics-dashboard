@@ -7,13 +7,17 @@ import { StatCard } from '../shared/StatCard';
 import { StatGrid } from '../shared/StatGrid';
 import { Card } from '../shared/Card';
 import { DataTable } from '../shared/DataTable';
-import { getColors, getAxisStyle, getGridStyle, getTooltipStyle } from '../shared/charts/theme';
+import { COLORS, FONT_MONO, getColors, getAxisStyle, getGridStyle, getTooltipStyle } from '../shared/charts/theme';
+
+const MILESTONES = ['d30','d60','d90','d180','d270','d365','d540','d730'];
+const MILESTONE_LABELS: Record<string, string> = { d30:'30d', d60:'60d', d90:'90d', d180:'180d', d270:'270d', d365:'1Y', d540:'1.5Y', d730:'2Y' };
 
 export default function HalvingCycle() {
   const { analytics } = useData();
   if (!analytics?.halving_cycle) return <div>No data.</div>;
 
   const hc = analytics.halving_cycle;
+  const cc = analytics.cycle_comparison;
   const c = getColors();
   const axis = getAxisStyle();
   const grid = getGridStyle();
@@ -61,6 +65,47 @@ export default function HalvingCycle() {
           </ResponsiveContainer>
         </Card>
       </div>
+
+      {cc && cc.length > 0 && (
+        <Card title="Cycle Comparison: Current vs Past Halvings">
+          <p style={{ fontSize: 12, color: COLORS.textMuted, margin: '0 0 12px', fontFamily: FONT_MONO }}>
+            Return from halving price at each milestone. Last row = average of halvings 1-3.
+          </p>
+          <div style={{ overflow: 'auto', borderRadius: 6, border: `1px solid ${COLORS.border}` }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={{ padding: '8px 10px', fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textAlign: 'left', position: 'sticky', top: 0, background: COLORS.cardBg, borderBottom: `1px solid ${COLORS.border}` }}>Cycle</th>
+                  <th style={{ padding: '8px 10px', fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textAlign: 'right', position: 'sticky', top: 0, background: COLORS.cardBg, borderBottom: `1px solid ${COLORS.border}` }}>Price</th>
+                  {MILESTONES.map(m => (
+                    <th key={m} style={{ padding: '8px 6px', fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textAlign: 'center', position: 'sticky', top: 0, background: COLORS.cardBg, borderBottom: `1px solid ${COLORS.border}` }}>{MILESTONE_LABELS[m]}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {cc.map((row, i) => {
+                  const isAvg = row.name.startsWith('Avg');
+                  return (
+                    <tr key={i} style={{ background: isAvg ? 'rgba(88,166,255,0.06)' : i % 2 === 0 ? 'transparent' : COLORS.rowAlt }}>
+                      <td style={{ padding: '6px 10px', fontSize: 12, fontFamily: FONT_MONO, fontWeight: isAvg ? 700 : 400, color: COLORS.text, borderBottom: `1px solid ${COLORS.border}` }}>{row.name}</td>
+                      <td style={{ padding: '6px 10px', fontSize: 12, fontFamily: FONT_MONO, textAlign: 'right', color: COLORS.textMuted, borderBottom: `1px solid ${COLORS.border}` }}>{row.price != null ? `$${row.price.toLocaleString()}` : '-'}</td>
+                      {MILESTONES.map(m => {
+                        const v = (row as unknown as Record<string, unknown>)[m] as number | null;
+                        const color = v == null ? COLORS.textDim : v > 0 ? c.positive : c.negative;
+                        return (
+                          <td key={m} style={{ padding: '6px 6px', fontSize: 12, fontFamily: FONT_MONO, textAlign: 'center', color, fontWeight: isAvg ? 700 : 400, borderBottom: `1px solid ${COLORS.border}` }}>
+                            {v != null ? `${v > 0 ? '+' : ''}${v}%` : '-'}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
