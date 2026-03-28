@@ -20,7 +20,6 @@ import RoundNumbers from './components/sections/RoundNumbers';
 import BigMoves from './components/sections/BigMoves';
 import DowSession from './components/sections/DowSession';
 import Autocorrelation from './components/sections/Autocorrelation';
-import Backtests from './components/sections/Backtests';
 import KillZones from './components/sections/KillZones';
 import AsianRange from './components/sections/AsianRange';
 import CmeGap from './components/sections/CmeGap';
@@ -40,7 +39,7 @@ const SECTIONS: Record<string, React.FC> = {
   hourly: Hourly, fomc: Fomc, liquidity: Liquidity, returns: Returns,
   volatility: Volatility, candles: Candles, trends: Trends, volume: Volume,
   sessiondive: SessionDive, roundnums: RoundNumbers, bigmoves: BigMoves,
-  heatmap: DowSession, autocorr: Autocorrelation, backtests: Backtests,
+  heatmap: DowSession, autocorr: Autocorrelation,
   killzones: KillZones, asianrange: AsianRange, cmegap: CmeGap,
   halvingcycle: HalvingCycle, weeklyrange: WeeklyRange, monthlybias: MonthlyBias,
   correlations: BtcEthCorr, mfemae: MfeMae, streaks: Streaks,

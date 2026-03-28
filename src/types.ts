@@ -245,29 +245,3 @@ export interface AnalyticsData {
   sortino_ratio: SortinoRatioData;
 }
 
-// Backtests types
-export interface BacktestTrade {
-  symbol: string; open_time: string; close_time: string;
-  entry: number; sl: number; tp: number; exit: number;
-  reason: string; pnl: number; win: boolean;
-  hours: number; size: number; balance: number;
-}
-
-export interface BacktestStrategy {
-  name: string;
-  period: string;
-  slug: string;
-  stats: {
-    trades: number; wins: number; losses: number; wr: number; pf: number; pnl: number; mdd: number;
-    avg_win: number; avg_loss: number; best_trade: number; worst_trade: number;
-    avg_hold_hours: number; max_hold_hours: number;
-    start_balance: number; end_balance: number; sharpe: number; total_fees: number;
-    monthly_returns: { month: string; pnl: number; trades: number }[];
-    by_symbol: Record<string, { trades: number; wr: number; pnl: number }>;
-    by_reason: Record<string, number>;
-  };
-  equity_curve: { date: string; balance: number }[];
-  trades: BacktestTrade[];
-}
-
-export interface BacktestsData { strategies: BacktestStrategy[]; }

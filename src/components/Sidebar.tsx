@@ -34,7 +34,6 @@ const SECTIONS = [
     { id: 'correlations', label: 'Correlations' },
   ]},
   { group: 'Backtests', items: [
-    { id: 'backtests', label: 'Backtest Results' },
     { id: 'mfemae', label: 'MFE / MAE' },
     { id: 'streaks', label: 'Win/Loss Streaks' },
     { id: 'riskruin', label: 'Risk of Ruin' },
@@ -114,9 +113,26 @@ export function Sidebar({ active, onChange }: SidebarProps) {
         ))}
       </nav>
 
+      <div style={{ padding: '8px 16px', borderTop: `1px solid ${COLORS.border}` }}>
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdj6Jmr-tlF8ZS4S4XNaGE1avy-a6zHwN2EpUairE0fY3vjcQ/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'block', width: '100%', padding: '8px 0',
+            textAlign: 'center', fontSize: 12, fontFamily: FONT_MONO,
+            color: COLORS.accent, textDecoration: 'none',
+            border: `1px solid ${COLORS.border}`, borderRadius: 6,
+            transition: 'border-color 0.2s, background 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(88,166,255,0.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+        >
+          Feedback
+        </a>
+      </div>
       <div style={{
-        padding: '12px 16px', borderTop: `1px solid ${COLORS.border}`,
-        fontSize: 10, color: COLORS.textDim, fontFamily: FONT_MONO,
+        padding: '8px 16px 12px', fontSize: 10, color: COLORS.textDim, fontFamily: FONT_MONO,
       }}>Python + React + Recharts</div>
     </aside>
   );

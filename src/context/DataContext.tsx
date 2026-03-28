@@ -1,32 +1,29 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { AnalyticsData, BacktestsData } from '../types';
+import type { AnalyticsData } from '../types';
 
 interface DataState {
   analytics: AnalyticsData | null;
-  backtests: BacktestsData | null;
   loading: boolean;
   error: string | null;
 }
 
 const DataContext = createContext<DataState>({
-  analytics: null, backtests: null, loading: true, error: null,
+  analytics: null, loading: true, error: null,
 });
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DataState>({
-    analytics: null, backtests: null, loading: true, error: null,
+    analytics: null, loading: true, error: null,
   });
 
   useEffect(() => {
-    Promise.all([
-      fetch(`${import.meta.env.BASE_URL}data/analytics.json`).then(r => r.json()),
-      fetch(`${import.meta.env.BASE_URL}data/backtests.json`).then(r => r.json()),
-    ])
-      .then(([analytics, backtests]) => {
-        setState({ analytics, backtests, loading: false, error: null });
+    fetch(`${import.meta.env.BASE_URL}data/analytics.json`)
+      .then(r => r.json())
+      .then((analytics) => {
+        setState({ analytics, loading: false, error: null });
       })
       .catch(err => {
-        setState({ analytics: null, backtests: null, loading: false, error: err.message });
+        setState({ analytics: null, loading: false, error: err.message });
       });
   }, []);
 
