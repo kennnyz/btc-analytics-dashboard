@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataProvider, useData } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { Sidebar } from './components/Sidebar';
@@ -60,14 +60,28 @@ function Content({ section }: { section: string }) {
   return Component ? <Component /> : null;
 }
 
+// The active section lives in the URL hash so reloads and shared links keep it.
+function sectionFromHash() {
+  const id = window.location.hash.slice(1);
+  return Object.hasOwn(SECTIONS, id) ? id : 'overview';
+}
+
 export default function App() {
-  const [section, setSection] = useState('overview');
+  const [section, setSection] = useState(sectionFromHash);
+
+  useEffect(() => {
+    const onHashChange = () => setSection(sectionFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const selectSection = (id: string) => { window.location.hash = id; };
 
   return (
     <ThemeProvider>
       <DataProvider>
         <div className="app-layout">
-          <Sidebar active={section} onChange={setSection} />
+          <Sidebar active={section} onChange={selectSection} />
           <main className="content-area">
             <Content section={section} />
           </main>
