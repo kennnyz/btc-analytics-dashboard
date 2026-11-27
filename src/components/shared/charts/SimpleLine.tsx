@@ -4,7 +4,7 @@ import { getAxisStyle, getColors, getGridStyle, getTooltipStyle } from './theme'
 interface LineDef { key: string; color?: string; name?: string; }
 
 interface SimpleLineProps {
-  data: any[];
+  data: object[];
   xKey: string;
   lines: LineDef[];
   height?: number;

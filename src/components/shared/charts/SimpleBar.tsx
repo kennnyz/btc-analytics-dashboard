@@ -4,7 +4,7 @@ import { getAxisStyle, getColors, getGridStyle, getTooltipStyle, FONT_MONO } fro
 interface BarDef { key: string; color?: string; name?: string; }
 
 interface SimpleBarProps {
-  data: any[];
+  data: object[];
   xKey: string;
   bars: BarDef[];
   height?: number;
@@ -31,7 +31,7 @@ export function SimpleBar({ data, xKey, bars, height = 300, title, colorByValue,
           {bars.map(b => (
             <Bar key={b.key} dataKey={b.key} name={b.name || b.key} fill={b.color || c.accent} radius={[2, 2, 0, 0]}>
               {colorByValue && data.map((entry, idx) => (
-                <Cell key={idx} fill={entry[b.key] >= 0 ? c.positive : c.negative} />
+                <Cell key={idx} fill={Number((entry as Record<string, unknown>)[b.key]) >= 0 ? c.positive : c.negative} />
               ))}
             </Bar>
           ))}
