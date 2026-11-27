@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BTC Analytics Dashboard</title>
-    <style>body { background: #f6f8fa; }</style>
+    <script>
+      // Apply the saved theme before first paint; ThemeContext does the same after React loads.
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('btc-dash-theme') === 'dark' ? 'dark' : 'light');
+    </script>
   </head>
   <body>
     <div id="root"></div>
