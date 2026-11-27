@@ -1,17 +1,20 @@
 import { useState, useMemo } from 'react';
 import { COLORS, FONT_MONO } from './charts/theme';
 
+type Row = Record<string, unknown>;
+
 interface Column {
   key: string;
   label: string;
-  format?: (value: any, row: any) => string | React.ReactNode;
+  // Method syntax keeps callers' narrower param types (e.g. (v: number) => string) assignable.
+  format?(value: unknown, row: Row): string | React.ReactNode;
   align?: 'left' | 'right' | 'center';
   colorize?: boolean;
 }
 
 interface DataTableProps {
   columns: Column[];
-  data: any[];
+  data: object[];
   sortable?: boolean;
   maxHeight?: string;
 }
@@ -21,13 +24,14 @@ export function DataTable({ columns, data, sortable = true, maxHeight = '500px' 
   const [sortAsc, setSortAsc] = useState(true);
 
   const sorted = useMemo(() => {
-    if (!sortKey) return data;
-    return [...data].sort((a, b) => {
+    const rows = data as Row[];
+    if (!sortKey) return rows;
+    return [...rows].sort((a, b) => {
       const va = a[sortKey], vb = b[sortKey];
       if (va == null && vb == null) return 0;
       if (va == null) return 1;
       if (vb == null) return -1;
-      const cmp = typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb));
+      const cmp = typeof va === 'number' && typeof vb === 'number' ? va - vb : String(va).localeCompare(String(vb));
       return sortAsc ? cmp : -cmp;
     });
   }, [data, sortKey, sortAsc]);
@@ -46,7 +50,7 @@ export function DataTable({ columns, data, sortable = true, maxHeight = '500px' 
             {columns.map(col => (
               <th key={col.key} onClick={() => handleSort(col.key)} style={{
                 padding: '8px 10px',
-                textAlign: (col.align || 'left') as any,
+                textAlign: col.align || 'left',
                 fontSize: 11, fontWeight: 600,
                 color: COLORS.textMuted,
                 textTransform: 'uppercase',
@@ -68,7 +72,7 @@ export function DataTable({ columns, data, sortable = true, maxHeight = '500px' 
             <tr key={i} style={{ background: i % 2 === 0 ? 'transparent' : COLORS.rowAlt }}>
               {columns.map(col => {
                 const raw = row[col.key];
-                const formatted = col.format ? col.format(raw, row) : raw;
+                const formatted = col.format ? col.format(raw, row) : (raw as React.ReactNode);
                 let color = COLORS.text;
                 if (col.colorize && typeof raw === 'number') {
                   color = raw > 0 ? COLORS.positive : raw < 0 ? COLORS.negative : COLORS.textMuted;
@@ -76,7 +80,7 @@ export function DataTable({ columns, data, sortable = true, maxHeight = '500px' 
                 return (
                   <td key={col.key} style={{
                     padding: '6px 10px',
-                    textAlign: (col.align || 'left') as any,
+                    textAlign: col.align || 'left',
                     fontSize: 12, fontFamily: FONT_MONO,
                     whiteSpace: 'nowrap',
                     borderBottom: `1px solid ${COLORS.border}`,

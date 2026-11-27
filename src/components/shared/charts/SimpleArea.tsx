@@ -2,7 +2,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { getAxisStyle, getColors, getGridStyle, getTooltipStyle } from './theme';
 
 interface SimpleAreaProps {
-  data: any[];
+  data: object[];
   xKey: string;
   yKey: string;
   color?: string;
