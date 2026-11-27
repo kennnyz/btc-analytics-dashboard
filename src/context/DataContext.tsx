@@ -18,7 +18,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/analytics.json`)
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`Failed to load analytics.json: HTTP ${r.status}`);
+        return r.json();
+      })
       .then((analytics) => {
         setState({ analytics, loading: false, error: null });
       })
